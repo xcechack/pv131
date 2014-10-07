@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\DestroyByObject.cs" />
      <Compile Include="Assets\asteroidGenerator.cs" />
      <Compile Include="Assets\shotScript.cs" />
      <Compile Include="Assets\spaceShipControl.cs" />
