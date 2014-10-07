@@ -17,6 +17,7 @@ public class asteroidGenerator : MonoBehaviour {
 		{
 			//Physics.gravity = new Vector3 (1, 0, 0);
 			s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			s.collider.isTrigger=true;
 			Rigidbody gameObjectsRigidBody = s.AddComponent<Rigidbody>(); // Add the rigidbody.
 			gameObjectsRigidBody.mass = 10; // Set the GO's mass to 5 via the Rigidbody.
 			gameObjectsRigidBody.useGravity=false;
