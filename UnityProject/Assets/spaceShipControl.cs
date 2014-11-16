@@ -4,7 +4,7 @@ using System.Collections;
 public class spaceShipControl : MonoBehaviour {
 	
 	
-	
+
 	public GameObject shot;
 	public Transform weapon;
 	public float shotLifeTime=3f;
