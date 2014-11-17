@@ -25,6 +25,8 @@ public class spaceShipControl : MonoBehaviour {
 	
 	void Update(){
 		if (Input.GetKeyDown ("space")) {
+			if(shot==null||weapon==null)
+				return;
 			actualShot = Instantiate (shot, weapon.position, weapon.rotation);
 			Awake ();	
 		}
