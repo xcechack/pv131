@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\DestroyByObject.cs" />
+     <Compile Include="Assets\NetworkManager.cs" />
      <Compile Include="Assets\asteroidGenerator.cs" />
      <Compile Include="Assets\bezierPath.cs" />
      <Compile Include="Assets\destroy.cs" />
@@ -74,7 +75,7 @@
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
      <None Include="Assets\Standard Assets\Tessellation Shaders\BumpedSpecularDisplacement.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/Seto/Documents/GitHub/pv131/UnityProject/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/Michal/Documents/GitHub/pv255/UnityProject/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
