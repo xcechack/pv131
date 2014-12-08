@@ -8,12 +8,12 @@ using System;
 public class bezierPath : MonoBehaviour {
 	public int range = 10; // range of random controll line difference rotation 
 	public int pathScale=20;
-	public float tunelScale=5;
-	public int numberOfLines=5;
+	public float tunelScale=20;
+	public int numberOfLines=25;
 	Color c1 = Color.cyan;
 	Color c2 = Color.magenta;
 	int lengthOfLineRenderer = 100;
-	LineRenderer[] renderer;
+	LineRenderer[] renderer; // renderuje ciary okolo tunela
 	int positionIndex=10;
 	List<Vector3> listOfPoints = new List<Vector3>();
 	Vector3[] points;
@@ -29,20 +29,8 @@ public class bezierPath : MonoBehaviour {
 	GameObject s;
 	Vector3[] ngon;
 	void Start() {
-		GameObject a1 = new GameObject ();
-		
 		renderer = new LineRenderer[numberOfLines];
-		//renderer[1]= a1.AddComponent<LineRenderer> ();
 		
-		ngon = createNgon (numberOfLines, new Vector3 (1, 1, 1),tunelScale);
-		/*for (int i=0; i<2; i++){
-			renderer [i] = new LineRenderer();
-				renderer [i].material = new Material (Shader.Find ("Particles/Additive"));
-				renderer [i].SetColors (c1, c2);
-				renderer [i].SetWidth (0.2F, 0.2F);
-			renderer [i].SetVertexCount (lengthOfLineRenderer);
-		
-		}*/
 		for (int i=0; i<numberOfLines; i++){
 			GameObject newLine = new GameObject("Line");
 			renderer [i] = newLine.AddComponent<LineRenderer>();
@@ -94,17 +82,53 @@ public class bezierPath : MonoBehaviour {
 		print (str);
 		
 		initStaticBezierCurve(listOfPoints,50);
-		/*for (int i=0; i<vertices.Count; i++) {
-			
+		
+		float quadDist = 0.3f;
+		
+		for (int i = 70; i < vertices.Count; i++)
+		{
+			//Physics.gravity = new Vector3 (1, 0, 0);
 			s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			s.collider.isTrigger=true;
 			Rigidbody gameObjectsRigidBody = s.AddComponent<Rigidbody>(); // Add the rigidbody.
 			gameObjectsRigidBody.mass = 10; // Set the GO's mass to 5 via the Rigidbody.
 			gameObjectsRigidBody.useGravity=false;
 			gameObjectsRigidBody.angularDrag =1f;
-			s.transform.position = vertices[i];
-			s.transform.localScale=new Vector3 (0.1f,0.1f,0.1f);
-		}*/
-		//rigidbody.position = vertices [positionIndex];
+			s.transform.position = new Vector3 ((vertices[i].x+UnityEngine.Random.value*tunelScale*2-tunelScale), 
+			                                    (vertices[i].y+UnityEngine.Random.value*tunelScale*2-tunelScale), 
+			                                    (vertices[i].z+UnityEngine.Random.value*tunelScale*2-tunelScale));
+			
+			s.transform.localScale=new Vector3 (UnityEngine.Random.value*5+5,UnityEngine.Random.value*5+5,UnityEngine.Random.value*5+5);
+			Vector3[] a = s.GetComponent<MeshFilter>().mesh.vertices;
+			bool[] editedVertices = new bool[a.Length];
+			for(int l=0;l<a.Length;l++) editedVertices[l]=false;
+			
+			Vector3 var;
+			for(int t=0; t<a.Length;t++){
+				float x=UnityEngine.Random.value*0.1f;
+				float y=UnityEngine.Random.value*0.3f;
+				float z=UnityEngine.Random.value*0.3f;
+				var=a[t];
+				for(int d=0;d<a.Length;d++){
+					//Mathf.Abs(a[t].x-a[d].x)<0.01 && Mathf.Abs(a[t].y-a[d].y)<0.01 && Mathf.Abs(a[t].z-a[d].z)<0.01
+					if(Mathf.Abs(var.x-a[d].x)<quadDist && Mathf.Abs(var.y-a[d].y)<quadDist && Mathf.Abs(var.z-a[d].z)<quadDist/*var.Equals(a[d])*/){
+						if(editedVertices[d]==false){
+							editedVertices[d]=true;
+							a[d].x+=x;
+							a[d].y+=x;
+							a[d].z+=x;
+						}
+					}
+				}
+			}
+			s.GetComponent<MeshFilter>().mesh.vertices=a;
+			s.GetComponent<MeshFilter>().mesh.RecalculateNormals();
+			
+			s.GetComponent<MeshFilter>().mesh.RecalculateBounds();
+			s.GetComponent<MeshFilter>().mesh.Optimize();
+			s.tag="Player";
+		}
+		
 	}
 	
 	void generateRandomControlls(ref List <Vector3> points){
@@ -121,7 +145,6 @@ public class bezierPath : MonoBehaviour {
 		                                    UnityEngine.Random.Range (-30,30)) * tmpVec.normalized;
 		anchor2 = control2 + (anchor2*scalar);
 		Vector3[] outNodes = new Vector3[4];
-		//points.Add (anchor1);
 		points.Add (control1);
 		points.Add (control2);
 		points.Add (anchor2);
@@ -131,13 +154,6 @@ public class bezierPath : MonoBehaviour {
 	Vector3 offset=new Vector3(1,1,1);
 	void Update () {
 		
-		//foreach(Vector3 i in vertices)
-		for (int i=0; i<ngon.Length-1; i++) {
-			Debug.DrawLine(ngon[i],ngon[i+1]);
-		}
-		if (ngon.Length != 0) {
-			Debug.DrawLine(ngon[0],ngon[ngon.Length-1]);
-		}
 		Debug.DrawLine(new Vector3(0,0,0),new Vector3(1,1,1));
 		
 		Vector3[] vec = new Vector3[numberOfLines];
@@ -147,8 +163,10 @@ public class bezierPath : MonoBehaviour {
 				renderer [j].SetPosition (i, vec[j]+vertices[i]);
 			}
 		}
-		if (Vector3.Distance (vertices [positionIndex], rigidbody.position) >
-		    Vector3.Distance (vertices [positionIndex + 1], rigidbody.position)) {
+		
+		GameObject ship = GameObject.Find ("spaceShip");
+		if (Vector3.Distance (vertices [positionIndex], ship.transform.position) >
+		    Vector3.Distance (vertices [positionIndex + 1], ship.transform.position)) {
 			vertices.RemoveAt (0);
 		}
 		if (Input.GetKeyDown ("up")) {
@@ -157,8 +175,9 @@ public class bezierPath : MonoBehaviour {
 				l=0;
 		}
 		
-		if (Vector3.Distance (rigidbody.position, vertices [positionIndex]) > 6f){
-			print("out"+Vector3.Distance (rigidbody.position, vertices [positionIndex]));		//LineRenderer lineRenderer = GetComponent<LineRenderer>();
+		if (Vector3.Distance (ship.transform.position, vertices [positionIndex]) > tunelScale){
+			print("out"+Vector3.Distance (ship.transform.position, vertices [positionIndex]));
+			ship.transform.position=vertices[positionIndex];//LineRenderer lineRenderer = GetComponent<LineRenderer>();
 		}
 		
 		drawControls ();
@@ -207,30 +226,6 @@ public class bezierPath : MonoBehaviour {
 		return outVertex;
 	}
 	
-	
-	/*void countVertices(){
-		
-		if ((this.listOfPoints.Count < 4) && ((this.listOfPoints.Count % 3) != 1))
-			return;
-		
-		Vector3 point;
-		Vector3 pointBackUp;
-		Vector3[] points=new Vector3[4];
-		while(listOfPoints.Count!=1){			// because number Of control nodes is 3*n+1
-			points[0]=this.listOfPoints[0];
-			points[1]=this.listOfPoints[1];
-			points[2]=this.listOfPoints[2];
-			points[3]=this.listOfPoints[3];
-			listOfPoints.RemoveRange(0,3);
-			float u = 0;
-			for (int j = 0; j < divisionLevel; j++){
-				u = u + 1.0f / divisionLevel;
-				point = getPointOnCurve(points, u);
-				vertices[verticesCounter++]=point;
-				pointBackUp = point;
-			}
-		}
-	}*/
 	
 	void countVertices(){
 		
@@ -284,9 +279,6 @@ public class bezierPath : MonoBehaviour {
 		}
 		return ngon;
 	}
-	/*float randomAngle(float minMax){
-		float random= Random.
-	}*/
 	
 }
 
