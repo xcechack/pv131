@@ -27,7 +27,6 @@ public class spaceShipControl : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		if (networkView.isMine) {
 						Quaternion rotX = Quaternion.AngleAxis (
 			Input.GetAxis ("Roll") * rotationSpeed, Vector3.right);
 						Quaternion rotY = Quaternion.AngleAxis (
@@ -41,22 +40,6 @@ public class spaceShipControl : MonoBehaviour {
 
 						Quaternion transf = transform.rotation;
 						transform.position += transform.forward * speed * Time.deltaTime;
-				}
-	}
-
-	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
-	{
-		Vector3 syncPosition = Vector3.zero;
-		if (stream.isWriting)
-		{
-			syncPosition = rigidbody.position;
-			stream.Serialize(ref syncPosition);
-		}
-		else
-		{
-			stream.Serialize(ref syncPosition);
-			rigidbody.position = syncPosition;
-		}
 	}
 
 	float ClampAngle (float angle,float min,float max) {
