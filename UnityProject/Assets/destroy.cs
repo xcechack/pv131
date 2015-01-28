@@ -5,7 +5,8 @@ public class destroy : MonoBehaviour
 {
 	public GameObject explosion;
 	public GameObject playerExplosion;
-	
+	private static int counter = 0;
+
 	void OnTriggerEnter(Collider other) 
 	{
 		Instantiate(explosion, transform.position, transform.rotation);
@@ -15,5 +16,8 @@ public class destroy : MonoBehaviour
 		}
 		Destroy(other.gameObject);
 		Destroy(gameObject);
+		counter++;
+		TextMesh score = GameObject.Find ("Score").GetComponent<TextMesh> ();
+		score.text = counter.ToString();
 	}
 }
