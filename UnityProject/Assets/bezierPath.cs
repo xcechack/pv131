@@ -34,7 +34,7 @@ public class bezierPath : MonoBehaviour {
 		for (int i=0; i<numberOfLines; i++){
 			GameObject newLine = new GameObject("Line");
 			renderer [i] = newLine.AddComponent<LineRenderer>();
-			renderer [i].material = new Material (Shader.Find ("Particles/Additive"));
+			//renderer [i].material = new Material (Shader.Find ("Particles/Additive"));
 			renderer [i].SetColors (c1, c2);
 			renderer [i].SetWidth (0.2F, 0.2F);
 			renderer [i].SetVertexCount (lengthOfLineRenderer);
@@ -84,7 +84,7 @@ public class bezierPath : MonoBehaviour {
 		initStaticBezierCurve(listOfPoints,50);
 		
 		float quadDist = 0.3f;
-		
+		Texture2D inputTexture = (Texture2D)Resources.Load("asteroid1", typeof(Texture2D));
 		for (int i = 70; i < vertices.Count; i++)
 		{
 			//Physics.gravity = new Vector3 (1, 0, 0);
@@ -126,6 +126,11 @@ public class bezierPath : MonoBehaviour {
 			
 			s.GetComponent<MeshFilter>().mesh.RecalculateBounds();
 			s.GetComponent<MeshFilter>().mesh.Optimize();
+
+			
+			if(inputTexture==null)
+				print ("texture is null ----------------------------------------------------");
+			s.renderer.material.mainTexture = inputTexture;
 			s.tag="Player";
 		}
 		
