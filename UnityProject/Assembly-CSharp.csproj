@@ -51,6 +51,7 @@
      <Compile Include="Assets\asteroidGenerator.cs" />
      <Compile Include="Assets\bezierPath.cs" />
      <Compile Include="Assets\destroy.cs" />
+     <Compile Include="Assets\guardian.cs" />
      <Compile Include="Assets\shotScript.cs" />
      <Compile Include="Assets\spaceShipControl.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />

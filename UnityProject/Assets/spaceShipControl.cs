@@ -3,7 +3,7 @@ using System.Collections;
 
 public class spaceShipControl : MonoBehaviour {
 
-	public GameObject shot;
+	GameObject shot;
 	public Transform weapon;
 	public float shotLifeTime=3f;
 	public float rotationSpeed = 2f;  
@@ -14,7 +14,7 @@ public class spaceShipControl : MonoBehaviour {
 	private Object actualShot;
 
 	void Start(){
-		shot = GameObject.Find ("shoot");
+		shot = (GameObject)Resources.Load("shoot");
 	}
 
 	void Awake () { Destroy (actualShot,shotLifeTime); }

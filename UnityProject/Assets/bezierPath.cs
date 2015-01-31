@@ -10,6 +10,8 @@ public class bezierPath : MonoBehaviour {
 	public int pathScale=20;
 	public float tunelScale=20;
 	public int numberOfLines=25;
+
+	List<GameObject> asteroids;
 	Color c1 = Color.cyan;
 	Color c2 = Color.magenta;
 	int lengthOfLineRenderer = 100;
@@ -20,6 +22,7 @@ public class bezierPath : MonoBehaviour {
 	List<Vector3> vertices;
 	uint verticesCounter=0;
 	uint divisionLevel = 0;
+
 	enum nodes{
 		anchor1=0 ,
 		anchor2=3 ,
@@ -29,6 +32,7 @@ public class bezierPath : MonoBehaviour {
 	GameObject s;
 	Vector3[] ngon;
 	void Start() {
+		asteroids = new List<GameObject> ();
 		renderer = new LineRenderer[numberOfLines];
 		
 		for (int i=0; i<numberOfLines; i++){
@@ -47,93 +51,15 @@ public class bezierPath : MonoBehaviour {
 		listOfPoints.Add (new Vector3 (20 , 0 , 0 ));
 		generateRandomControlls(ref listOfPoints);
 		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
 		
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		generateRandomControlls(ref listOfPoints);
-		print (listOfPoints.Count+" numberOfControlls");
-		
+		print (listOfPoints.Count+" numberOfControlls");		
 		string str = "";
 		for (int i=0; i<listOfPoints.Count; i++) {
 			str+=listOfPoints[i];		
 		}
 		print (str);
-		
 		initStaticBezierCurve(listOfPoints,50);
-		
-		float quadDist = 0.3f;
-		Texture2D inputTexture = (Texture2D)Resources.Load("asteroid1", typeof(Texture2D));
-		for (int i = 70; i < vertices.Count; i++)
-		{
-			//Physics.gravity = new Vector3 (1, 0, 0);
-			s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			s.collider.isTrigger=true;
-			Rigidbody gameObjectsRigidBody = s.AddComponent<Rigidbody>(); // Add the rigidbody.
-			gameObjectsRigidBody.mass = 10; // Set the GO's mass to 5 via the Rigidbody.
-			gameObjectsRigidBody.useGravity=false;
-			gameObjectsRigidBody.angularDrag =1f;
-			s.transform.position = new Vector3 ((vertices[i].x+UnityEngine.Random.value*tunelScale*2-tunelScale), 
-			                                    (vertices[i].y+UnityEngine.Random.value*tunelScale*2-tunelScale), 
-			                                    (vertices[i].z+UnityEngine.Random.value*tunelScale*2-tunelScale));
-			
-			s.transform.localScale=new Vector3 (UnityEngine.Random.value*5+5,UnityEngine.Random.value*5+5,UnityEngine.Random.value*5+5);
-			Vector3[] a = s.GetComponent<MeshFilter>().mesh.vertices;
-			bool[] editedVertices = new bool[a.Length];
-			for(int l=0;l<a.Length;l++) editedVertices[l]=false;
-			
-			Vector3 var;
-			for(int t=0; t<a.Length;t++){
-				float x=UnityEngine.Random.value*0.1f;
-				float y=UnityEngine.Random.value*0.3f;
-				float z=UnityEngine.Random.value*0.3f;
-				var=a[t];
-				for(int d=0;d<a.Length;d++){
-					//Mathf.Abs(a[t].x-a[d].x)<0.01 && Mathf.Abs(a[t].y-a[d].y)<0.01 && Mathf.Abs(a[t].z-a[d].z)<0.01
-					if(Mathf.Abs(var.x-a[d].x)<quadDist && Mathf.Abs(var.y-a[d].y)<quadDist && Mathf.Abs(var.z-a[d].z)<quadDist/*var.Equals(a[d])*/){
-						if(editedVertices[d]==false){
-							editedVertices[d]=true;
-							a[d].x+=x;
-							a[d].y+=x;
-							a[d].z+=x;
-						}
-					}
-				}
-			}
-			s.GetComponent<MeshFilter>().mesh.vertices=a;
-			s.GetComponent<MeshFilter>().mesh.RecalculateNormals();
-			
-			s.GetComponent<MeshFilter>().mesh.RecalculateBounds();
-			s.GetComponent<MeshFilter>().mesh.Optimize();
-
-			
-			if(inputTexture==null)
-				print ("texture is null ----------------------------------------------------");
-			s.renderer.material.mainTexture = inputTexture;
-			s.tag="Player";
-		}
-		
+		generateAsteroidsForLastSegment ();
 	}
 	
 	void generateRandomControlls(ref List <Vector3> points){
@@ -156,12 +82,15 @@ public class bezierPath : MonoBehaviour {
 		print (outNodes [0] + " " + outNodes [1] + " " + outNodes [2] + " " + outNodes [3]);
 	}
 	
-	Vector3 offset=new Vector3(1,1,1);
 	void Update () {
+		if (vertices.Count <= 100) {
+			generateNewVertices ();
+			print("generated new segment");
+		}
+	
+		//Debug.DrawLine(new Vector3(0,0,0),new Vector3(1,1,1));
 		
-		Debug.DrawLine(new Vector3(0,0,0),new Vector3(1,1,1));
-		
-		Vector3[] vec = new Vector3[numberOfLines];
+		Vector3[] vec = new Vector3[100];
 		for (int i=0; i<100; i++) {
 			vec=createNgon(numberOfLines,vertices[i]-vertices[i+1],tunelScale);
 			for(int j=0;j<numberOfLines;j++){
@@ -173,7 +102,15 @@ public class bezierPath : MonoBehaviour {
 		if (Vector3.Distance (vertices [positionIndex], ship.transform.position) >
 		    Vector3.Distance (vertices [positionIndex + 1], ship.transform.position)) {
 			vertices.RemoveAt (0);
+			generateAsteroidsForLastSegment();
 		}
+
+		if(asteroids.Count>=50){
+			Destroy(asteroids[0]);
+			asteroids.RemoveAt(0);
+			print(asteroids.Count+" removed");
+		}
+
 		if (Input.GetKeyDown ("up")) {
 			l++;
 			if(l>listOfPoints.Count/3-1)
@@ -231,7 +168,8 @@ public class bezierPath : MonoBehaviour {
 		return outVertex;
 	}
 	
-	
+	/*count vertices for controlls in point list, it is neccessary to delete controlls of curves that had been generated because it causes 
+	 errors in structure of tunel*/
 	void countVertices(){
 		
 		if ((this.listOfPoints.Count < 4) && ((this.listOfPoints.Count % 3) != 1))
@@ -252,6 +190,15 @@ public class bezierPath : MonoBehaviour {
 				vertices.Add(point);
 			}
 		}
+	}
+
+	/* generates new */
+	void generateNewVertices(){
+		generateRandomControlls (ref listOfPoints);
+		listOfPoints.RemoveRange(0, listOfPoints.Count-4);
+		countVertices();
+		generateAsteroidsForLastSegment ();
+
 	}
 	
 	int l=0;
@@ -284,6 +231,58 @@ public class bezierPath : MonoBehaviour {
 		}
 		return ngon;
 	}
-	
+
+	void generateAsteroidsForLastSegment(){
+				float quadDist = 0.3f;
+				Texture2D inputTexture = (Texture2D)Resources.Load ("asteroid1", typeof(Texture2D));
+				for (int i = (int)divisionLevel; i < (int)divisionLevel+1; i++) {
+						//Physics.gravity = new Vector3 (1, 0, 0);
+						s = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+						s.collider.isTrigger = true;
+						Rigidbody gameObjectsRigidBody = s.AddComponent<Rigidbody> (); // Add the rigidbody.
+						gameObjectsRigidBody.mass = 10; // Set the GO's mass to 5 via the Rigidbody.
+						gameObjectsRigidBody.useGravity = false;
+						gameObjectsRigidBody.angularDrag = 1f;
+						s.transform.position = new Vector3 ((vertices [i].x + UnityEngine.Random.value * tunelScale * 2 - tunelScale), 
+		                                    (vertices [i].y + UnityEngine.Random.value * tunelScale * 2 - tunelScale), 
+		                                    (vertices [i].z + UnityEngine.Random.value * tunelScale * 2 - tunelScale));
+		
+						s.transform.localScale = new Vector3 (UnityEngine.Random.value * 5 + 5, UnityEngine.Random.value * 5 + 5, UnityEngine.Random.value * 5 + 5);
+						Vector3[] a = s.GetComponent<MeshFilter> ().mesh.vertices;
+						bool[] editedVertices = new bool[a.Length];
+						for (int l=0; l<a.Length; l++)
+								editedVertices [l] = false;
+		
+						Vector3 var;
+						for (int t=0; t<a.Length; t++) {
+								float x = UnityEngine.Random.value * 0.1f;
+								float y = UnityEngine.Random.value * 0.3f;
+								float z = UnityEngine.Random.value * 0.3f;
+								var = a [t];
+								for (int d=0; d<a.Length; d++) {
+										//Mathf.Abs(a[t].x-a[d].x)<0.01 && Mathf.Abs(a[t].y-a[d].y)<0.01 && Mathf.Abs(a[t].z-a[d].z)<0.01
+										if (Mathf.Abs (var.x - a [d].x) < quadDist && Mathf.Abs (var.y - a [d].y) < quadDist && Mathf.Abs (var.z - a [d].z) < quadDist/*var.Equals(a[d])*/) {
+												if (editedVertices [d] == false) {
+														editedVertices [d] = true;
+														a [d].x += x;
+														a [d].y += x;
+														a [d].z += x;
+												}
+										}
+								}
+						}
+						s.GetComponent<MeshFilter> ().mesh.vertices = a;
+						s.GetComponent<MeshFilter> ().mesh.RecalculateNormals ();
+		
+						//s.GetComponent<MeshFilter> ().mesh.RecalculateBounds ();
+						//s.GetComponent<MeshFilter> ().mesh.Optimize ();
+		
+						if (inputTexture == null)
+								print ("texture is null");
+						s.renderer.material.mainTexture = inputTexture;
+						s.tag = "Player";
+						asteroids.Add(s);
+				}
+		}
 }
 

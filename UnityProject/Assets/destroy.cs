@@ -9,10 +9,10 @@ public class destroy : MonoBehaviour
 
 	void OnTriggerEnter(Collider other) 
 	{
-		Instantiate(explosion, transform.position, transform.rotation);
+		Destroy(Instantiate(explosion, transform.position, transform.rotation),2f);
 		if (other.tag == "Player")
 		{
-			Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+			Destroy(Instantiate(playerExplosion, other.transform.position, other.transform.rotation),2f);
 		}
 		Destroy(other.gameObject);
 		Destroy(gameObject);
