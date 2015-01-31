@@ -10,7 +10,7 @@ public class NetworkManager : MonoBehaviour {
 	
 	private void SpawnPlayer()
 	{
-		Network.Instantiate(playerPrefab, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+		Network.Instantiate(playerPrefab, new Vector3(10.84378f, -0.02763581f, 1.295858f), Quaternion.AngleAxis(90, Vector3.up), 0);
 	}
 	
 	private void RefreshHostList()
