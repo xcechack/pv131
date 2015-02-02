@@ -12,6 +12,7 @@ public class bezierPath : MonoBehaviour {
 	public int numberOfLines=25;
 
 	List<GameObject> asteroids;
+	GameObject pickUp;
 	Color c1 = Color.cyan;
 	Color c2 = Color.magenta;
 	int lengthOfLineRenderer = 100;
@@ -19,7 +20,7 @@ public class bezierPath : MonoBehaviour {
 	int positionIndex=10;
 	List<Vector3> listOfPoints = new List<Vector3>();
 	Vector3[] points;
-	List<Vector3> vertices;
+	List<Vector3> vertices; //aktualni souradnice tunelu
 	uint verticesCounter=0;
 	uint divisionLevel = 0;
 
@@ -32,9 +33,10 @@ public class bezierPath : MonoBehaviour {
 	GameObject s;
 	Vector3[] ngon;
 	void Start() {
+		pickUp = Resources.Load("pickUpObject", typeof(GameObject)) as GameObject;
 		asteroids = new List<GameObject> ();
 		renderer = new LineRenderer[numberOfLines];
-		
+
 		for (int i=0; i<numberOfLines; i++){
 			GameObject newLine = new GameObject("Line");
 			renderer [i] = newLine.AddComponent<LineRenderer>();
@@ -233,6 +235,7 @@ public class bezierPath : MonoBehaviour {
 	}
 
 	void generateAsteroidsForLastSegment(){
+		generatePickUpForLastSegment ();
 				float quadDist = 0.3f;
 				Texture2D inputTexture = (Texture2D)Resources.Load ("asteroid1", typeof(Texture2D));
 				for (int i = (int)divisionLevel; i < (int)divisionLevel+1; i++) {
@@ -284,5 +287,16 @@ public class bezierPath : MonoBehaviour {
 						asteroids.Add(s);
 				}
 		}
+
+	//generuje pluska pro pridani zivota
+	void generatePickUpForLastSegment(){
+		GameObject nextPickUp = (GameObject)Instantiate(pickUp, pickUp.transform.position, pickUp.transform.rotation);
+
+		//pickUp.AddComponent(
+		Vector3 actualTunelPosition = new Vector3 (vertices[vertices.Count - 1].x, vertices[vertices.Count - 1].y, vertices[vertices.Count - 1].z); //aktualni souradnice stredu tunelu
+		nextPickUp.transform.position = new Vector3(actualTunelPosition.x, actualTunelPosition.y, actualTunelPosition.z);
+
+		Destroy (nextPickUp, 40f);
+	}
 }
 
