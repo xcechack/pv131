@@ -7,10 +7,31 @@ public class NetworkManager : MonoBehaviour {
 	private const string gameName = "SpaceShooter";
 	private HostData[] hostList;
 	public GameObject playerPrefab;
+	public GameObject asteroidsPrefab;
+	private GameObject InstantiatedObject;
+	private GameObject go;
+	private LineRenderer lr;
+	private bool serverStart = false;
+	
+	void Start(){
+		lr = new LineRenderer ();
+		GameObject newLine = new GameObject("Line");
+		lr = newLine.AddComponent<LineRenderer>();
+		lr.SetVertexCount (2);
+		lr.SetWidth (0.1f,0.1f);
+	}
+	
+	private void Update(){
+		if(GameObject.Find("ship")!=null)
+			lr.SetPosition(0, GameObject.Find("ship").transform.position);
+		if(GameObject.Find("spaceShip(Clone)")!=null)
+			lr.SetPosition(1, GameObject.Find("spaceShip(Clone)").transform.position);
+	}
 	
 	private void SpawnPlayer()
 	{
-		Network.Instantiate(playerPrefab, new Vector3(10.84378f, -0.02763581f, 1.295858f), Quaternion.AngleAxis(90, Vector3.up), 0);
+		var clone = Network.Instantiate(playerPrefab, new Vector3(10.84378f, -0.02763581f, 1.295858f), Quaternion.AngleAxis(90, Vector3.up), 0);
+		clone.name = "ship";
 	}
 	
 	private void RefreshHostList()
@@ -32,7 +53,8 @@ public class NetworkManager : MonoBehaviour {
 	
 	void OnServerInitialized()
 	{
-		Debug.Log("Server Initializied");
+		Network.Instantiate(asteroidsPrefab, new Vector3(10.84378f, -0.02763581f, 1.295858f), Quaternion.AngleAxis(90, Vector3.up), 0);
+		SpawnPlayer();
 	}
 	
 	private void JoinServer(HostData hostData)
@@ -42,8 +64,15 @@ public class NetworkManager : MonoBehaviour {
 	
 	void OnConnectedToServer()
 	{
-		Debug.Log("Server Joined");
 		SpawnPlayer();
+	}
+	
+	void OnPlayerDisconnected(NetworkPlayer player) {
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+		Network.Disconnect();
+		MasterServer.UnregisterHost();
+		Application.LoadLevel("menu");
 	}
 	
 	void OnGUI()
@@ -55,6 +84,9 @@ public class NetworkManager : MonoBehaviour {
 			
 			if (GUI.Button(new Rect(25, 60, 120, 25), "Refresh Hosts"))
 				RefreshHostList();
+			
+			if (GUI.Button(new Rect(25, 95, 120, 25), "Menu"))
+				Application.LoadLevel("menu");
 			
 			if (hostList != null)
 			{
