@@ -15,7 +15,7 @@ public class AI_shooting : MonoBehaviour {
 		GameObject spaceShip=GameObject.Find("spaceShip2");
 		if (Vector3.Distance (spaceShip.transform.position, transform.position) < farthestVisibleSpot) {
 			if(timeToNextShot<=0){
-				print (">>>>>>>>>>>>>>>>><<<<<<>>>>>>>>>>>>>>>>>>>");
+
 				Vector3 dir=(spaceShip.transform.position-transform.position).normalized;
 				GameObject a = (GameObject)Instantiate (shot, transform.position+(dir*3), Quaternion.LookRotation(dir)*Quaternion.Euler(new Vector3(90,0,0)));
 				Destroy(a,5f);

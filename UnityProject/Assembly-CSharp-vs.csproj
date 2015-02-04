@@ -49,14 +49,17 @@
      <Compile Include="Assets\AI_avoiding_collisions.cs" />
      <Compile Include="Assets\AI_explosion_if_player_is_close.cs" />
      <Compile Include="Assets\AI_shooting.cs" />
+     <Compile Include="Assets\IfSpaceGoToMainMenu.cs" />
      <Compile Include="Assets\MultiplayerControl.cs" />
      <Compile Include="Assets\NetworkManager.cs" />
      <Compile Include="Assets\asteroidGenerator.cs" />
      <Compile Include="Assets\bezierPath.cs" />
      <Compile Include="Assets\crosshair.cs" />
+     <Compile Include="Assets\dataTransfer.cs" />
      <Compile Include="Assets\destroy.cs" />
      <Compile Include="Assets\destroyShip.cs" />
      <Compile Include="Assets\destroySingle.cs" />
+     <Compile Include="Assets\getScore.cs" />
      <Compile Include="Assets\guardian.cs" />
      <Compile Include="Assets\shotScript.cs" />
      <Compile Include="Assets\spaceShipControl.cs" />
@@ -83,7 +86,7 @@
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
      <None Include="Assets\Standard Assets\Tessellation Shaders\BumpedSpecularDisplacement.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/artur/Documents/GitHub/4.2 release/pv255/UnityProject/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/artur/Documents/GitHub/4.2 release final/pv255/UnityProject/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>

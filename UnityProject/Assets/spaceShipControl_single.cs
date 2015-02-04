@@ -3,16 +3,32 @@ using System.Collections;
 
 public class spaceShipControl_single : MonoBehaviour {
 		
-		GameObject shot;
-		public Transform weapon;
-		public float shotLifeTime=3f;
-		public float rotationSpeed = 2f;  
-		public float speed=50f;
-		private float rotationY;
-		private float rotationX;
-		private float rotationZ;
-		private Object actualShot;
+	GameObject shot;
+	public int life=5;
+	public int maxLife=5;
+	public Transform weapon;
+	public float shotLifeTime=3f;
+	public float rotationSpeed = 2f;  
+	public float speed=50f;
+	private float rotationY;
+	private float rotationX;
+	private float rotationZ;
+	private Object actualShot;
 		
+
+	public void addLife(){
+		if(life<maxLife)
+			life++;
+	}
+
+	public void removeLife(){
+		if (life == 1) {
+			Application.LoadLevel("gameOver");
+		} else {
+			life--;
+		}
+	}
+
 		void Start(){
 			shot = (GameObject)Resources.Load("shoot2");
 		}

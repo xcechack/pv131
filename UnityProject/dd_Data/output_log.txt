@@ -1,0 +1,62 @@
+Initialize engine version: 4.6.1f1 (d1db7a1b5196)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 650M   (ID=0xfd1)
+    Vendor:   NVIDIA
+    VRAM:     1985 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.058 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found.
+<RI> Input initialized.
+Platform assembly: C:\Users\artur\Documents\GitHub\4.2 release final\pv255\UnityProject\dd_Data\Managed\System.Core.dll (this message is harmless)
+UnloadTime: 0.408818 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 329.
+Total: 3.490355 ms (FindLiveObjects: 0.014967 ms CreateObjectMapping: 0.008125 ms MarkObjects: 0.112895 ms  DeleteObjects: 2.890383 ms)
+
+(0.0, 0.0, 0.0) (0.0, 0.0, 0.0) (0.0, 0.0, 0.0) (0.0, 0.0, 0.0)
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+(0.0, 0.0, 0.0) (0.0, 0.0, 0.0) (0.0, 0.0, 0.0) (0.0, 0.0, 0.0)
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+0 dfafs
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+UnloadTime: 1.809750 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 217 unused Assets to reduce memory usage. Loaded Objects now: 202.
+Total: 1.329088 ms (FindLiveObjects: 0.015822 ms CreateObjectMapping: 0.017960 ms MarkObjects: 0.079540 ms  DeleteObjects: 0.796255 ms)
+
