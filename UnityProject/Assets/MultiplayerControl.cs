@@ -18,6 +18,7 @@ public class MultiplayerControl : MonoBehaviour {
 	private Vector3 syncStartPosition = Vector3.zero;
 	private Vector3 syncEndPosition = Vector3.zero;
 	public GameObject shotPrefab;
+	public AudioClip fire;
 	
 	void Start(){
 		shot = (GameObject)Resources.Load("shoot");
@@ -44,6 +45,7 @@ public class MultiplayerControl : MonoBehaviour {
 	void Update(){
 		if (networkView.isMine) {
 			if (Input.GetKeyDown ("space")) {
+				audio.PlayOneShot(fire);
 				actualShot = Network.Instantiate(shotPrefab, weapon.position, weapon.rotation, 0);
 				Awake ();	
 			}

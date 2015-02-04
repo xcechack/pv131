@@ -30,8 +30,9 @@ public class NetworkManager : MonoBehaviour {
 	
 	private void SpawnPlayer()
 	{
-		var clone = Network.Instantiate(playerPrefab, new Vector3(10.84378f, -0.02763581f, 1.295858f), Quaternion.AngleAxis(90, Vector3.up), 0);
+		var clone = Network.Instantiate(playerPrefab, new Vector3(-300, 300, 300), Quaternion.AngleAxis(180, Vector3.up), 0);
 		clone.name = "ship";
+		Network.Instantiate(asteroidsPrefab, new Vector3(0, 0, 0), Quaternion.AngleAxis(90, Vector3.up), 0);
 	}
 	
 	private void RefreshHostList()
@@ -47,13 +48,12 @@ public class NetworkManager : MonoBehaviour {
 	
 	private void StartServer()
 	{
-		Network.InitializeServer(4, 25000, !Network.HavePublicAddress());
+		Network.InitializeServer(2, 25000, !Network.HavePublicAddress());
 		MasterServer.RegisterHost(typeName, gameName);
 	}
 	
 	void OnServerInitialized()
 	{
-		Network.Instantiate(asteroidsPrefab, new Vector3(10.84378f, -0.02763581f, 1.295858f), Quaternion.AngleAxis(90, Vector3.up), 0);
 		SpawnPlayer();
 	}
 	

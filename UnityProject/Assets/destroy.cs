@@ -5,18 +5,19 @@ public class destroy : MonoBehaviour
 {
 	public GameObject explosion;
 	public GameObject playerExplosion;
+	public AudioClip boom;
 	//private static int counter = 0;
 	
-	void OnTriggerEnter(Collider other) 
-	{
+	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
+			audio.PlayOneShot(boom);
 			Instantiate (playerExplosion, transform.position, transform.rotation);
 			GameObject.Find ("ship").GetComponent<MultiplayerControl> ().speed = 0;
 			GameObject.Find ("spaceShip(Clone)").GetComponent<MultiplayerControl> ().speed = 0;
 			StartCoroutine (Example (2.0F));
 			//GUI.Label(new Rect(100,100,100,100), "Player won!!");
 		} else {
-			
+			audio.PlayOneShot(boom);
 			Destroy (Instantiate (playerExplosion, other.transform.position, other.transform.rotation), 2f);
 			Destroy (other.gameObject);
 			Destroy (gameObject);
