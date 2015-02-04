@@ -10,7 +10,13 @@ public class bezierPath : MonoBehaviour {
 	public int pathScale=20;
 	public float tunelScale=20;
 	public int numberOfLines=25;
-	
+	public bool enemyEnabled = true;
+
+	public float minTimeToNewEnemy=2f;
+	public float maxTimeToNewEnemy=8f;
+	public float enemyLifeTime=20f;
+
+	GameObject[] enemyTypes;
 	List<GameObject> asteroids;
 	GameObject pickUp;
 	Color c1 = Color.cyan;
@@ -20,7 +26,7 @@ public class bezierPath : MonoBehaviour {
 	int positionIndex=10;
 	List<Vector3> listOfPoints = new List<Vector3>();
 	Vector3[] points;
-	List<Vector3> vertices; //aktualni souradnice tunelu
+	public List<Vector3> vertices; //aktualni souradnice tunelu
 	uint verticesCounter=0;
 	uint divisionLevel = 0;
 	
@@ -33,6 +39,11 @@ public class bezierPath : MonoBehaviour {
 	GameObject s;
 	Vector3[] ngon;
 	void Start() {
+
+		enemyTypes = new GameObject[2];
+		enemyTypes[0]=(GameObject)Resources.Load("Guardian");
+		enemyTypes[1]=(GameObject)Resources.Load("DinamicBomb");
+
 		pickUp = Resources.Load("pickUpObject", typeof(GameObject)) as GameObject;
 		asteroids = new List<GameObject> ();
 		renderer = new LineRenderer[numberOfLines];
@@ -86,7 +97,9 @@ public class bezierPath : MonoBehaviour {
 	
 	
 	float TimeCounter=20f;
+	float timeToAddEnemy=2f;
 	void Update () {
+
 		if (TimeCounter <= 0) {
 			generatePickUpForLastSegment ();
 			print ((((int)Time.time) % 20) + " time");
@@ -112,7 +125,7 @@ public class bezierPath : MonoBehaviour {
 			}
 		}
 		
-		GameObject ship = GameObject.Find ("spaceShip");
+		GameObject ship = GameObject.Find ("spaceShip2");
 		if (Vector3.Distance (vertices [positionIndex], ship.transform.position) >
 		    Vector3.Distance (vertices [positionIndex + 1], ship.transform.position)) {
 			vertices.RemoveAt (0);
@@ -135,7 +148,21 @@ public class bezierPath : MonoBehaviour {
 			print("out"+Vector3.Distance (ship.transform.position, vertices [positionIndex]));
 			ship.transform.position=vertices[positionIndex];//LineRenderer lineRenderer = GetComponent<LineRenderer>();
 		}
-		
+
+		if (enemyEnabled) {
+						if (timeToAddEnemy < 0) {
+								if (vertices.Count > 50)
+										Destroy ((GameObject)Instantiate (getRandomEnemy (), vertices [vertices.Count - UnityEngine.Random.Range (20, 49)], transform.rotation), enemyLifeTime);
+								else
+										Destroy ((GameObject)Instantiate (getRandomEnemy (), vertices [vertices.Count - 1], transform.rotation), enemyLifeTime);
+			
+								timeToAddEnemy = UnityEngine.Random.Range (minTimeToNewEnemy, maxTimeToNewEnemy);
+								print ("released");
+						} else {
+								timeToAddEnemy -= Time.deltaTime;
+						}
+				}
+
 		drawControls ();
 	}
 	
@@ -308,6 +335,9 @@ public class bezierPath : MonoBehaviour {
 		nextPickUp.transform.position = actualTunelPosition;
 		
 		Destroy (nextPickUp, 40f);
+	}
+	GameObject getRandomEnemy(){
+		return enemyTypes [(UnityEngine.Random.Range(0, 100))%2];
 	}
 }
 

@@ -14,15 +14,15 @@ public class spaceShipControl : MonoBehaviour {
 	private Object actualShot;
 
 	void Start(){
-		shot = (GameObject)Resources.Load("shoot");
+		shot = (GameObject)Resources.Load("shoot2");
 	}
 
-	void Awake () { Destroy (actualShot,shotLifeTime); }
+
 	
 	void Update(){
 		if (Input.GetKeyDown ("space")) {
 			actualShot = Instantiate (shot, weapon.position, weapon.rotation);
-			Awake ();	
+			Destroy (actualShot,shotLifeTime);
 		}
 	}
 	
