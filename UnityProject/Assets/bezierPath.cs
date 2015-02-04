@@ -65,12 +65,12 @@ public class bezierPath : MonoBehaviour {
 		generateRandomControlls(ref listOfPoints);
 		generateRandomControlls(ref listOfPoints);
 		
-		print (listOfPoints.Count+" numberOfControlls");		
+		/*print (listOfPoints.Count+" numberOfControlls");		
 		string str = "";
 		for (int i=0; i<listOfPoints.Count; i++) {
 			str+=listOfPoints[i];		
 		}
-		print (str);
+		print (str);*/
 		initStaticBezierCurve(listOfPoints,50);
 		generateAsteroidsForLastSegment ();
 	}
@@ -135,7 +135,7 @@ public class bezierPath : MonoBehaviour {
 		if(asteroids.Count>=50){
 			Destroy(asteroids[0]);
 			asteroids.RemoveAt(0);
-			print(asteroids.Count+" removed");
+//			print(asteroids.Count+" removed");
 		}
 		
 		if (Input.GetKeyDown ("up")) {
@@ -147,6 +147,7 @@ public class bezierPath : MonoBehaviour {
 		if (Vector3.Distance (ship.transform.position, vertices [positionIndex]) > tunelScale){
 			print("out"+Vector3.Distance (ship.transform.position, vertices [positionIndex]));
 			ship.transform.position=vertices[positionIndex];//LineRenderer lineRenderer = GetComponent<LineRenderer>();
+			ship.transform.forward=(vertices[positionIndex+1]-vertices[positionIndex]).normalized;
 		}
 
 		if (enemyEnabled) {

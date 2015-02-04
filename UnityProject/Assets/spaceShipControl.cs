@@ -14,7 +14,7 @@ public class spaceShipControl : MonoBehaviour {
 	private Object actualShot;
 
 	void Start(){
-		shot = (GameObject)Resources.Load("shoot2");
+		shot = (GameObject)Resources.Load("shoot");
 	}
 
 
