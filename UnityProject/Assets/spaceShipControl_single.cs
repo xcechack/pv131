@@ -79,23 +79,20 @@ public class spaceShipControl_single : MonoBehaviour {
 
 		void OnTriggerEnter(Collider other) 
 		{
-			if (other.name == "Sphere") {
-						other.transform.position = Vector3.zero;
-						Destroy (other);
-						Destroy (Instantiate ((GameObject)Resources.Load ("explosion"), transform.position, transform.rotation), 2f);
-			
-						removeLife ();
-						return;
-			
-				} else if (other.gameObject.tag == "PickUp") {
+			if (other.gameObject.tag == "PickUp") {
 						print("DEBUG: Player just picked up a life!");
-						Destroy(other);
+						Destroy(other.gameObject);
 						addLife();
 
 				}
-
-
-	
+		else if (other.name == "Sphere") {
+			other.transform.position = Vector3.zero;
+			Destroy (other);
+			Destroy (Instantiate ((GameObject)Resources.Load ("explosion"), transform.position, transform.rotation), 2f);
+			
+			removeLife ();
+			return;
+		}
 		
 	}
 	//turns on the light on the last life indicator
